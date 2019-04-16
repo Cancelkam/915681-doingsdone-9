@@ -37,6 +37,8 @@ $doings = [ [
     'done' => 'Нет'
 ]];
 
+$projects = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто']; 
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 ?>
@@ -77,22 +79,15 @@ $show_complete_tasks = rand(0, 1);
         <div class="content">
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
-                <?php 
-                    $cur_index=0;
-                   
-                    $projects = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
-                ?>
+                
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php while ($cur_index < count($projects)): ?>
+                        <?php foreach ($projects as $key => $value): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?=$projects[$cur_index]; ?></a>
+                            <a class="main-navigation__list-item-link" href="#"><?=$value; ?></a>
                             <span class="main-navigation__list-item-count">0</span>
                         </li>
-                        <?php 
-                            $cur_index++;
-                            endwhile; 
-                        ?>
+                        <?php endforeach; ?>
                     </ul>
                 </nav>
 
@@ -131,49 +126,28 @@ $show_complete_tasks = rand(0, 1);
                 <?php $cur_doings = 0; ?>
               
                 <table class="tasks">
-                            <?php while($cur_doings < count($doings)): ?>
-                            <?php if ($show_complete_tasks === 0): ?>
-                                <tr class="tasks__item task
-                            <?php if($doings[$cur_doings]['done'] === 'Да'): ?>
-                            task--completed
-                            <?php endif?>
-                                ">
-                            <?php endif?>
+                            <?php foreach ($doings as $key => $value):  ?>
+                            <?php if ($show_complete_tasks === 1 || $value['done'] === "Нет"): ?>
+                                <tr class="tasks__item task <?= ($value)['done'] === 'Да' ? 'task--completed': '' ?>">
+                            
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
                                
-                            <span class="checkbox__text"><?=$doings[$cur_doings]['title']; ?></span>
+                            <span class="checkbox__text"><?=$value['title']; ?></span>
                                
                                 
                             </label>
                         </td>
-                        
-                        <?php $cur_doings++; ?>
-                        <?php endwhile;?>
-                        
-                        
-
-                            <!-- <?php if ($show_complete_tasks === 1): ?>
-                                <tr class="tasks__item task task--completed">
-                                        <td class="task__select">
-                                            <label class="checkbox task__checkbox">
-                                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                                 <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-                                            </label>
-                                        </td>
-                                        <td class="task__date">10.10.2019</td>
-                                        <td class="task__controls"></td>
-                                </tr> 
-                            <?php endif?> -->
                            
                         <td class="task__file">
                             <a class="download-link" href="#">Home.psd</a>
                         </td>
 
-                        <td class="task__date"></td>
+                        <td class="task__date"><?=$value['date']; ?> </td>
                     </tr>
-                    
+                    <?php endif ?>
+                    <?php endforeach ?>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
                 </table>
             </main>

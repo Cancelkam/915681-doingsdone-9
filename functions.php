@@ -13,16 +13,23 @@ function elements_count($project_list , $project_title) {
 }
 
 /**
- * Функция подсчета разницы в часах
+ * Функция подсчета важности таска
  */
-function diff_hours($date)   {
-    if ($date === "Нет"){ //Если дата не задана, возвращаем произвольное большое число
-        return 1000;
+function isImportantTask($date,$hours)   {
+    if ($date === "Нет"){ //Если дата не задана, возвращаем false
+        return false;
     }
     date_default_timezone_set('Europe/Moscow'); // Устанавливает временную зону
     $cur_date=time(); // Сохраняем текущее время
     $deadline_date=strtotime($date); // Сохраняем время выполнения задачи
     $diff=($deadline_date - $cur_date);// Вычисляем промежуток между настоящим временем и временем выполнения задачи
-    $hours=floor($diff/3600); // Вычисляем округленную разницу в часах
-    return $hours;
+    floor($diff/3600); // Вычисляем округленную разницу в часах
+    if (floor($diff/3600) <= $hours) {
+        return true;
+    }
+    else    {
+        return false;
+    }
+
+
 }

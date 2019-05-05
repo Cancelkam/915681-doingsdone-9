@@ -30,7 +30,7 @@
                             <?php if ($show_complete_tasks === 1 || $value['done'] === "Нет"): ?>
                             <tr class="tasks__item task
                             <?= $value['done'] === 'Да' ? 'task--completed': '' ?>
-                            <?= diff_hours($value['date']) <= 24 ? 'task--important' : '' ?>
+                            <?= isImportantTask($value['date'],24) ? 'task--important' : '' ?>
                             ">
 
                                 <td class="task__select">

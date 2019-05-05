@@ -40,11 +40,11 @@
                     <nav class="main-navigation">
                         <ul class="main-navigation__list">
                             <?php foreach ($projects as $value): ?>
-                            <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#"><?=$value; ?></a>
-                                <span
-                                    class="main-navigation__list-item-count"><?= elements_count($doings,$value) ?></span>
-                            </li>
+                                <li class="main-navigation__list-item">
+                                    <a class="main-navigation__list-item-link" href="#"><?=$value; ?></a>
+                                    <span
+                                        class="main-navigation__list-item-count"><?= elements_count($doings,$value) ?></span>
+                                </li>
                             <?php endforeach; ?>
                         </ul>
                     </nav>

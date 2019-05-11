@@ -53,3 +53,11 @@ $layout_content = include_template('layout.php', ['content' => $page_content,
                                                   'projects' => $projects ,
                                                   'doings'=> $doings, ]);
 print($layout_content);
+
+
+$con=mysqli_connect('localhost','root','','doingsdone');
+mysqli_set_charset($con,"utf8");
+$sql_projects_list = "SELECT projects.project_name FROM projects WHERE user_id=$current_user_id";
+$result_projects_list = mysqli_query($con,$sql_projects_list);
+$sql_tasks_list = "SELECT tasks.title FROM tasks WHERE user_id=$current_user_id";
+$result_tasks_list = mysqli_query($con,$sql_tasks_list);

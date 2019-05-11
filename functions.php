@@ -1,18 +1,5 @@
 <?php
 /**
- * Функция подсчета задач по заданным категориям
- */
-function elements_count($project_list , $project_title) {
-    $sum=0;
-    foreach ($project_list as $value){
-        if  ($value['category'] === $project_title){
-            $sum++;
-        }
-    }
-    return $sum;
-}
-
-/**
  * Функция подсчета важности таска
  */
 function isImportantTask($date,$hours)   {

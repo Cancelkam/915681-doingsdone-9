@@ -20,7 +20,24 @@ INSERT INTO `users` (`id`, `reg_date`, `email`, `name`, `password`) VALUES
 	(1, '2019-05-08 23:28:14', '111@ya.ru', 'Andrey', '123123'),
 	(2, '2019-05-08 23:28:43', '222@ya.ru', 'Alyona', '321321');
 
-SELECT project_id,COUNT(*) project_cnt FROM tasks JOIN users ON tasks.user_id = users.id where users.id=2 group BY project_id  /*получить список из всех проектов для одного пользователя*//*посчитать количество задач в каждом проекте*/
-SELECT title FROM tasks WHERE project_id=1 /*получить список из всех задач для одного проекта*/
-UPDATE doingsdone.tasks SET status=1 WHERE id=1; /*пометить задачу как выполненную*/
-UPDATE doingsdone.tasks SET title='Заказать 3 пиццы' WHERE id=6; /*обновить название задачи по её идентификатору*/
+/*получить список из всех проектов для одного пользователя*/
+/*посчитать количество задач в каждом проекте*/
+SELECT projects.project_name, COUNT(*) AS task_count FROM projects
+JOIN tasks ON projects.id = tasks.project_id
+WHERE tasks.user_id=1
+GROUP BY tasks.project_id;
+
+/*получить список из всех задач для одного проекта*/
+SELECT title
+FROM tasks
+WHERE project_id=1
+
+/*пометить задачу как выполненную*/
+UPDATE doingsdone.tasks
+SET status=1
+WHERE id=1;
+
+/*обновить название задачи по её идентификатору*/
+UPDATE doingsdone.tasks
+SET title='Заказать 3 пиццы'
+WHERE id=6;

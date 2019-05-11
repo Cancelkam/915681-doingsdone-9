@@ -27,10 +27,10 @@
                     </div>
                     <table class="tasks">
                         <?php foreach ($doings as $value):  ?>
-                            <?php if ($show_complete_tasks === 1 || $value['done'] === "Нет"): ?>
+                            <?php if ($show_complete_tasks === 1 || $value[1] === 0): ?>
                             <tr class="tasks__item task
-                            <?= $value['done'] === 'Да' ? 'task--completed': '' ?>
-                            <?= isImportantTask($value['date'],24) ? 'task--important' : '' ?>
+                            <?= $value[1] === 1 ? 'task--completed': '' ?>
+                            <?= isImportantTask($value[2],24) ? 'task--important' : '' ?>
                             ">
 
                                 <td class="task__select">
@@ -38,7 +38,7 @@
                                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
                                             value="1">
 
-                                        <span class="checkbox__text"><?=$value['title']; ?></span>
+                                        <span class="checkbox__text"><?=$value[0]; ?></span>
 
 
                                     </label>
@@ -48,7 +48,7 @@
                                     <a class="download-link" href="#">Home.psd</a>
                                 </td>
 
-                                <td class="task__date"><?=$value['date']; ?> </td>
+                                <td class="task__date"><?=$value[2]; ?> </td>
                             </tr>
                             <?php endif ?>
                         <?php endforeach ?>

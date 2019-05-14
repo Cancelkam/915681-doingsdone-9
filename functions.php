@@ -18,5 +18,13 @@ function isImportantTask($date,$hours)   {
         return false;
     }
 
+}
 
+/**
+ * Функция проверки результата на ошибки
+ */
+function test_result($result,$sql_list){
+    if (!$result) {
+    die('Ошибка в запросе БД ' . $sql_list .' '. mysqli_error($con));
+    }
 }

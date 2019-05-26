@@ -7,54 +7,44 @@ $con=mysqli_connect('localhost','root','','doingsdone');
 mysqli_set_charset($con,"utf8");
 
 
-$sql_projects_list =
-"SELECT projects.project_name as name, COUNT(*) AS task_count,project_id FROM projects
-JOIN tasks ON projects.id = tasks.project_id
-WHERE tasks.user_id=1
-GROUP BY tasks.project_id;";
+$projects_list = get_project_list(2);
 
-$result_projects_list = mysqli_query($con,$sql_projects_list);
-test_result($result_projects_list,$sql_projects_list);
-$projects_list = mysqli_fetch_all($result_projects_list,MYSQLI_ASSOC);
-
-$sql_tasks_list = "SELECT title, status AS done, due_date AS date FROM tasks WHERE user_id=1 ";
-$result_tasks_list = mysqli_query($con,$sql_tasks_list);
-test_result($result_tasks_list,$sql_tasks_list);
-$tasks_list = mysqli_fetch_all($result_tasks_list,MYSQLI_ASSOC);
-
-
-/**
- * Ссылка которая учитывает текущие параметры запроса
- */
-
-$params=$_GET;
-$params['projects'] = ['project_id'];
-$scriptname = pathinfo(__FILE__,PATHINFO_BASENAME);
-$query = http_build_query($params);
-$url = '/' . $scriptname . "?" . $query;
-print_r($url);
 
 /**
  * Проверка наличия параметра в массиве
  */
-if (isset($_GET[$value['project_id']])) {
-    $project_id=$_GET[$value['project_id']];
-}
-else {
-    $project_id="new";
+$is_project_isset = false;
+if (isset($_GET['project_id'])) {
+    $project_id= (int) $_GET['project_id'];
+    foreach ($projects_list as $project) {
+        if ((int) $project['project_id'] === $project_id) {
+            $is_project_isset = true;
+        }
+    }
+    if (! $is_project_isset) {
+        header("HTTP/1.1 404 Not Found");
+        die();
+    }
+    // Получит список задач по конкретному проекту
 
 }
 
+$sql = 'SELECT title, status AS done, due_date AS date, file_link FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id = 2';
+$result = mysqli_query($con, $sql);
+test_result($result, $sql);
+$tasks_list = mysqli_fetch_all($result,MYSQLI_ASSOC);
 
+$page_content = include_template('index.php',[
+'projects' => $projects_list,
+'doings'=> $tasks_list,
+'show_complete_tasks' => $show_complete_tasks
+]);
 
+$layout_content = include_template('layout.php', [
+'content' => $page_content,
+'title' => 'Дела в порядке',
+'projects' => $projects_list,
+'doings'=> $tasks_list,
+]);
 
-
-$page_content = include_template('index.php', ['projects' => $projects_list,
-                                               'doings'=> $tasks_list,
-                                               'show_complete_tasks' => $show_complete_tasks]);
-$layout_content = include_template('layout.php', ['content' => $page_content,
-                                                  'title' => 'Дела в порядке',
-                                                  'projects' => $projects_list,
-                                                  'doings'=> $tasks_list, ]);
-
-                                                  print($layout_content);
+print($layout_content);

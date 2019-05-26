@@ -21,7 +21,7 @@
                 </a>
                 <div class="main-header__side">
                     <a class="main-header__side-item button button--plus open-modal"
-                        href="pages/form-task.html">Добавить задачу</a>
+                        href="add.php">Добавить задачу</a>
 
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
@@ -40,8 +40,8 @@
                     <nav class="main-navigation">
                         <ul class="main-navigation__list">
                             <?php foreach ($projects as $value): ?>
-                                <li class="main-navigation__list-item">
-                                    <a class="main-navigation__list-item-link" href="<?=$url?>"><?=htmlspecialchars($value['name'],ENT_QUOTES); ?></a>
+                                <li class="main-navigation__list-item <?= isset($_GET['project_id']) && $value['project_id'] === $_GET['project_id']  ? 'main-navigation__list-item--active' : ''?>">
+                                    <a class="main-navigation__list-item-link" href="<?='/index.php?project_id=' . $value['project_id']?>"><?=htmlspecialchars($value['name'],ENT_QUOTES); ?></a>
                                     <span
                                         class="main-navigation__list-item-count"><?= $value['task_count']; ?></span>
                                 </li>

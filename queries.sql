@@ -1,5 +1,5 @@
 
-
+USE doingsdone;
 INSERT INTO `projects` (`id`, `project_name`, `user_id`) VALUES
 	(1, 'Входящие', '2'),
 	(2, 'Учеба', '2'),

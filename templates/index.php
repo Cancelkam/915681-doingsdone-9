@@ -45,7 +45,7 @@
                                 </td>
 
                                 <td class="task__file">
-                                    <a class="download-link" href="#">Home.psd</a>
+                                    <?= $value['file_link'] !== "" ? '<a class="download-link" href="/uploads/' . $value['file_link'] . '">File</a>': "" ?>
                                 </td>
 
                                 <td class="task__date"><?=htmlspecialchars($value['date'],ENT_QUOTES); ?> </td>

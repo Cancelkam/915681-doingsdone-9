@@ -74,13 +74,23 @@ $param = $_GET;
 unset($param['filter']);
 $url = '/' . pathinfo(__FILE__,PATHINFO_BASENAME) . "?" . http_build_query($param);
 
+$search = $_GET['search'] ?? '';
 
-$page_content = include_template('index.php',[
-'projects' => $projects_list,
-'doings'=> $tasks_list,
-'show_complete_tasks' => $show_complete_tasks,
-'url' => $url
-]);
+if ($search) {
+    $sql='SELECT * FROM tasks WHERE MATCH (title) AGAINST (?) AND user_id=' . $user_id;
+    $stmt = db_get_prepare_stmt($con, $sql, [$search]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $task = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $page_content = include_template('search.php',['result'=>$task]);
+} else {
+    $page_content = include_template('index.php',[
+    'projects' => $projects_list,
+    'doings'=> $tasks_list,
+    'show_complete_tasks' => $show_complete_tasks,
+    'url' => $url
+    ]);
+}
 
 $layout_content = include_template('layout.php', [
 'content' => $page_content,

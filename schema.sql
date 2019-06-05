@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `user_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `title` (`title`)
+  KEY `title` (`title`),
+  FULLTEXT KEY `title_search` (`title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -23,7 +23,7 @@
             <?= isset($errors['date']) ? '<p class="form__message"> ' . $errors['date'] . '</p>' : '' ?>
 
 
-            <input class="form__input form__input--date <?= isset($errors['name']) ? 'form__input--error' : '' ?> " type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+            <input class="form__input form__input--date <?= isset($errors['date']) ? 'form__input--error' : '' ?> " type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
           </div>
 
           <div class="form__row">

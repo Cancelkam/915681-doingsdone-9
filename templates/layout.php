@@ -11,7 +11,7 @@
 
 <body>
     <h1 class="visually-hidden">Дела в порядке</h1>
-    <?php if ($user == 0): ?>
+    <?php if ($user === 0): ?>
     <body class="body-background">
     <h1 class="visually-hidden">Дела в порядке</h1>
     <div class="page-wrapper">

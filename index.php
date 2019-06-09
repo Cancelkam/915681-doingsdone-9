@@ -46,26 +46,21 @@ if (isset($_GET['check']) && isset($_GET['task_id'])) {
     $result = mysqli_query($con, $sql);
     test_result($result, $sql);
 }
+switch ($_GET['filter']){
+    case 'day':
+        $sql='SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id . ' AND due_date=CURDATE()';
+        break;
+    case 'tomorrow':
+        $sql = 'SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id . ' AND due_date = CURDATE() + INTERVAL 1 DAY';
+        break;
+    case 'overdue':
+        $sql = 'SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id . ' AND due_date < CURDATE()';
+        break;
+    default:
+        $sql='SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id;
+}
+$filter=$_GET['filter'] ?? 'all';
 
-// if (isset($_GET['filter'])) {
-    switch ($_GET['filter']){
-        case 'day':
-            $sql='SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id . ' AND due_date=CURDATE()';
-            break;
-        case 'tomorrow':
-            $sql = 'SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id . ' AND due_date = CURDATE() + INTERVAL 1 DAY';
-            break;
-        case 'overdue':
-            $sql = 'SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id . ' AND due_date < CURDATE()';
-            break;
-        default:
-            $sql='SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id;
-    }
-// }
-
-
-
-// $sql = 'SELECT title, status AS done, due_date AS date, file_link, id FROM tasks WHERE ' . ( $is_project_isset ? 'project_id =' . $project_id . ' AND ': "" ) . 'user_id =' . $user_id;
 $result = mysqli_query($con, $sql);
 test_result($result, $sql);
 $tasks_list = mysqli_fetch_all($result,MYSQLI_ASSOC);
@@ -88,7 +83,8 @@ if ($search) {
     'projects' => $projects_list,
     'doings'=> $tasks_list,
     'show_complete_tasks' => $show_complete_tasks,
-    'url' => $url
+    'url' => $url,
+    'filter' => $filter
     ]);
 }
 

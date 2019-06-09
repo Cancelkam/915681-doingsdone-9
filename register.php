@@ -2,7 +2,7 @@
 require_once('helpers.php');
 require_once('functions.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $register = $_POST;
     $required_fields = ['email', 'password', 'name'];
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if ($errors == []){
+    if ($errors === []){
         $con=mysqli_connect('localhost','root','','doingsdone');
         mysqli_set_charset($con,"utf8");
         $sql_users = "SELECT id FROM users WHERE email = '" . $register['email'] ."'";

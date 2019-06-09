@@ -9,10 +9,10 @@
 
                     <div class="tasks-controls">
                         <nav class="tasks-switch">
-                            <a href="<?= $url ?>&filter=all" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                            <a href="<?= $url ?>&filter=day" class="tasks-switch__item">Повестка дня</a>
-                            <a href="<?= $url ?>&filter=tomorrow" class="tasks-switch__item">Завтра</a>
-                            <a href="<?= $url ?>&filter=overdue" class="tasks-switch__item">Просроченные</a>
+                            <a href="<?= $url ?>&filter=all" class="tasks-switch__item <?= ($filter === 'all') ? 'tasks-switch__item--active' : ''; ?>">Все задачи</a>
+                            <a href="<?= $url ?>&filter=day" class="tasks-switch__item <?= ($filter === 'day') ? 'tasks-switch__item--active' : ''; ?>">Повестка дня</a>
+                            <a href="<?= $url ?>&filter=tomorrow" class="tasks-switch__item <?= ($filter === 'tomorrow') ? 'tasks-switch__item--active' : ''; ?>">Завтра</a>
+                            <a href="<?= $url ?>&filter=overdue" class="tasks-switch__item <?= ($filter === 'overdue') ? 'tasks-switch__item--active' : ''; ?>">Просроченные</a>
                         </nav>
 
                         <label class="checkbox">
@@ -28,7 +28,7 @@
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
                                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
-                                        <?= $value['done'] == 1 ? 'checked' : "" ?>
+                                        <?= $value['done'] === 1 ? 'checked' : "" ?>
                                             value="<?= $value['id'] ?>">
                                         <span class="checkbox__text"><?=htmlspecialchars($value['title'],ENT_QUOTES); ?></span>
                                     </label>

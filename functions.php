@@ -24,6 +24,8 @@ function isImportantTask($date,$hours)   {
  * Функция проверки результата на ошибки
  */
 function test_result($result,$sql_list){
+    $con=mysqli_connect('localhost','root','','doingsdone');
+    mysqli_set_charset($con,"utf8");
     if (!$result) {
     die('Ошибка в запросе БД ' . $sql_list .' '. mysqli_error($con));
     }

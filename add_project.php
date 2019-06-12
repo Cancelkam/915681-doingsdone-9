@@ -1,23 +1,19 @@
 <?php
 require_once('helpers.php');
 require_once('functions.php');
-
-session_start();
+require_once('init.php');
 
 if (isset($_SESSION['user']['id'])) {
     $user_id = $_SESSION['user']['id'];
     $user_name =  $_SESSION['user']['name'];
 }
- else {
-     $user_id = 0;
- }
+else {
+    $user_id = 0;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $project = $_POST;
-
     $errors = [];
-
 
     if (empty($_POST['name'])){
         $errors['project'] = 'Поле не заполнено!';
@@ -30,14 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($errors === []){
-            $con=mysqli_connect('localhost','root','','doingsdone');
-            mysqli_set_charset($con,"utf8");
-            $sql_insert_project = "INSERT INTO projects (project_name , user_id) VALUES ('" . trim($project['name']) . "',$user_id);";
-            $result = mysqli_query($con,$sql_insert_project);
+        $sql_insert_project = "INSERT INTO projects (project_name , user_id) VALUES ('" . trim($project['name']) . "',$user_id);";
+        $result = mysqli_query($con,$sql_insert_project);
     }
 }
 
 $page_content = include_template('add_project.php',[
+    'project' => $project,
     'errors' => $errors
  ]);
 

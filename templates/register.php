@@ -37,7 +37,7 @@
             <div class="form__row">
               <label class="form__label" for="email">E-mail <sup>*</sup></label>
               <?= isset($errors['email']) ? '<p class="error-message"> ' . $errors['email'] . '</p>' : '' ?>
-              <input class="form__input <?= isset($errors['email']) ? "form__input--error" : '' ?>" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
+              <input class="form__input <?= isset($errors['email']) ? "form__input--error" : '' ?>" type="text" maxlength="100" name="email" id="email" value="<?= $register['email']?>" placeholder="Введите e-mail">
 
             </div>
 
@@ -51,7 +51,7 @@
             <div class="form__row">
               <label class="form__label" for="name">Имя <sup>*</sup></label>
               <?= isset($errors['name']) ? '<p class="error-message"> ' . $errors['name'] . '</p>' : '' ?>
-              <input class="form__input <?= isset($errors['name']) ? "form__input--error" : '' ?>" type="text" name="name" id="name" value="" placeholder="Введите имя">
+              <input class="form__input <?= isset($errors['name']) ? "form__input--error" : '' ?>" type="text" maxlength="30" name="name" id="name" value="<?= $register['name']?>" placeholder="Введите имя">
             </div>
 
             <div class="form__row form__row--controls">

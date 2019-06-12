@@ -1,7 +1,11 @@
 <?php
 require_once('helpers.php');
 require_once('functions.php');
+require_once('init.php');
 
+if (isset($_SESSION['user']['id'])) {
+    header("Location: /index.php");
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $register = $_POST;
@@ -14,9 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    if (strlen($register['email']) > $email_lenght) {
+        $errors['email'] = "Длина должна быть не более $email_lenght " . get_noun_plural_form($email_lenght,"знака","знаков","знаков");
+    }
+    if (strlen($register['name']) > $name_lenght) {
+        $errors['name'] = "Длина должна быть не более $name_lenght " . get_noun_plural_form($name_lenght,"знака","знаков","знаков");
+    }
     if ($errors === []){
-        $con=mysqli_connect('localhost','root','','doingsdone');
-        mysqli_set_charset($con,"utf8");
         $sql_users = "SELECT id FROM users WHERE email = '" . $register['email'] ."'";
         $result = mysqli_query($con,$sql_users);
 
@@ -29,19 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sql = 'INSERT INTO users (email, name, password) VALUES (?, ?, ?)';
             $stmt = db_get_prepare_stmt($con, $sql, [$register['email'], $register['name'], $password]);
             $res = mysqli_stmt_execute($stmt);
-            print_r(mysqli_error($con));
         }
         if ($res && empty($errors)) {
             header("Location: /index.php");
             exit();
         }
     }
-
 }
-
-
-
 $layout_content = include_template('register.php', [
+    'register' => $register,
     'errors' => $errors
     ]);
 

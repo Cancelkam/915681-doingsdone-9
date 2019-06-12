@@ -40,7 +40,7 @@
           <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
             <?= isset($errors['email']) ? '<p class="form__message"> ' . $errors['email'] . '</p>' : '' ?>
-            <input class="form__input <?= isset($errors['email']) ? "form__input--error" : '' ?>" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
+            <input class="form__input <?= isset($errors['email']) ? "form__input--error" : '' ?>" type="text" maxlength="100" name="email" id="email" value="<?= $form['email'] ?>" placeholder="Введите e-mail">
           </div>
 
           <div class="form__row">

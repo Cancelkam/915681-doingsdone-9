@@ -1,46 +1,39 @@
 <?php
 require_once('helpers.php');
 require_once('functions.php');
-
-session_start();
+require_once('init.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form = $_POST;
 
-	$required = ['email', 'password'];
-	$errors = [];
-	foreach ($required as $field) {
-	    if (empty($form[$field])) {
-	        $errors[$field] = 'Это поле надо заполнить';
+    $required = ['email', 'password'];
+    $errors = [];
+    foreach ($required as $field) {
+        if (empty($form[$field])) {
+            $errors[$field] = 'Это поле надо заполнить';
         }
     }
-    $con=mysqli_connect('localhost','root','','doingsdone');
-    mysqli_set_charset($con,"utf8");
     $email = mysqli_real_escape_string($con, $form['email']);
-	$sql = "SELECT * FROM users WHERE email = '$email'";
-	$res = mysqli_query($con, $sql);
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $res = mysqli_query($con, $sql);
 
-	$user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
+    $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
-	if (!count($errors) and $user) {
+    if (!count($errors) and $user) {
         if (password_verify($form['password'], $user['password'])) {
             $_SESSION['user'] = $user;
-
         }
         else {
             $errors['password'] = 'Неверный пароль';
-
-		}
-	}
-    else {
-		$errors['email'] = 'Такой пользователь не найден';
+        }
     }
+
     if (count($errors)) {
-		$page_content = include_template('auth.php', ['form' => $form, 'errors' => $errors]);
-	}
+        $page_content = include_template('auth.php', ['form' => $form, 'errors' => $errors]);
+    }
     else {
-		header("Location: /index.php");
-		exit();
+        header("Location: /index.php");
+        exit();
     }
 }
 else {
@@ -54,6 +47,7 @@ else {
 
 
 $layout_content = include_template('auth.php', [
+    'form'=> $form,
     'errors' => $errors
     ]);
 

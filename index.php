@@ -1,12 +1,7 @@
 <?php
-
 require_once('functions.php');
 require_once('helpers.php');
-$show_complete_tasks = 1;
-$con=mysqli_connect('localhost','root','','doingsdone');
-mysqli_set_charset($con,"utf8");
-
-session_start();
+require_once('init.php');
 
 if (isset($_SESSION['user']['id'])) {
     $user_id = $_SESSION['user']['id'];
@@ -16,19 +11,15 @@ if (isset($_SESSION['user']['id'])) {
      $user_id = 0;
  }
 
-
-
 $projects_list = get_project_list($user_id);
 
-/**
- * Проверка наличия параметра в массиве
- */
 $is_project_isset = false;
 if (isset($_GET['project_id'])) {
     $project_id= (int) $_GET['project_id'];
     foreach ($projects_list as $project) {
         if ((int) $project['project_id'] === $project_id) {
             $is_project_isset = true;
+            break;
         }
     }
     if (! $is_project_isset) {
@@ -37,9 +28,13 @@ if (isset($_GET['project_id'])) {
     }
 
 }
-
+if ($_GET['show_completed'] === '1') {
+    $show_complete_tasks = 1;
+}
+else {
+    $show_complete_tasks = 0;
+}
 if (isset($_GET['check']) && isset($_GET['task_id'])) {
-
     $check=(int) $_GET['check'];
     $task_id=(int) $_GET['task_id'];
     $sql = 'UPDATE tasks SET status = ' . $check . ' WHERE id=' . $task_id . ' AND user_id=' . $user_id;
